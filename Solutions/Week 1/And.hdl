@@ -21,7 +21,7 @@
 * ------------------
 
 * Rationale: An AND gate can be realized with a NAND gate by inverting its output signals
-* We can the therefore have two NAND gates; one to collect the signals and the second one
+* We can therefore have two NAND gates; one to collect the signals and the second one
 * as an implementation of the NOT gate.
 
 

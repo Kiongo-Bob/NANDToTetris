@@ -1,0 +1,46 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+
+/** XOR Gate Truth table:
+* ------------------
+* | x | y | f(x,y) |
+* | 0 | 0 |    0   | 
+* | 0 | 1 |    1   |
+* | 1 | 0 |    1   |
+* | 1 | 1 |    0   | 
+* ------------------
+
+* NAND Gate Truth table:
+* ------------------
+* | x | y | f(x,y) |
+* | 0 | 0 |    1   | Notice 0 & 0 yield 1; AND gate inversion
+* | 0 | 1 |    1   | Notice 0 & 1 yield 1; AND gate 
+* | 1 | 0 |    1   | Notice 1 & 0 yield 1; AND gate 
+* | 1 | 1 |    0   | Notice 1 & 1 yield 0; AND gate inversion
+* ------------------
+
+* Rationale: An Xor gate can be realized with an AND and an OR gate.
+* We can therefore have two AND gates and OR their outputs
+* The two AND gates can be realized from 4 NAND gates; 2 for each.
+* The OR gate can be realized from NAND gates. 
+* Upon drawing the circuit implementation we realize that the 2nd block of NAND gates can simplify
+* the ORs from 2 to 1 -> (X*Y)+(X*Y)
+* This gives us 5 NAND gates
+
+/**
+ * Exclusive-or gate:
+ * if ((a and Not(b)) or (Not(a) and b)) out = 1, else out = 0
+ */
+CHIP Xor {
+    IN a, b;
+    OUT out;
+
+    PARTS:
+    Nand(a=a, b=a, out=aNanda );
+    Nand(a=b, b=b, out=bNandb );
+    Nand(a=aNanda, b=b, out=aNandaNandb);
+    Nand(a=a, b=bNandb, out=aNandbNandb);
+    Nand(a=aNandaNandb, b=aNandbNandb, out=out);
+    
+}
