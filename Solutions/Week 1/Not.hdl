@@ -1,0 +1,34 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+
+/** NOT Truth table:
+* ------------
+* | x | f(x) |
+* | 0 | 1    |
+* | 1 | 0    |
+* ------------
+
+* NAND Gate Truth table:
+* ------------------
+* | x | y | f(x,y) |
+* | 0 | 0 |    1   | Notice 0 & 0 yield 1; inversion
+* | 0 | 1 |    1   |
+* | 1 | 0 |    1   |
+* | 1 | 1 |    0   | Notice 1 & 1 yield 0; inversion
+* ------------------
+
+* Rationale: A NOT gate can be realized with a NAND gate by combining both
+* inputs into one; shorting the inputs of the NAND gate so that they have
+* the same value
+
+* Not gate:
+* if (in) out = 0, else out = 1
+*/
+CHIP Not {
+    IN in;
+    OUT out;
+
+    PARTS:
+    Nand(a=in, b=in, out=out);
+}

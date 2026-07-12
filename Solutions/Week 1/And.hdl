@@ -1,0 +1,38 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+
+/** AND Gate Truth table:
+* ------------------
+* | x | y | f(x,y) |
+* | 0 | 0 |    0   | 
+* | 0 | 1 |    0   |
+* | 1 | 0 |    0   |
+* | 1 | 1 |    1   | 
+* ------------------
+
+* NAND Gate Truth table:
+* ------------------
+* | x | y | f(x,y) |
+* | 0 | 0 |    1   | Notice 0 & 0 yield 1; AND gate inversion
+* | 0 | 1 |    1   | Notice 0 & 1 yield 1; AND gate inversion
+* | 1 | 0 |    1   | Notice 1 & 0 yield 1; AND gate inversion
+* | 1 | 1 |    0   | Notice 1 & 1 yield 0; AND gate inversion
+* ------------------
+
+* Rationale: An AND gate can be realized with a NAND gate by inverting its output signals
+* We can the therefore have two NAND gates; one to collect the signals and the second one
+* as an implementation of the NOT gate.
+
+
+* And gate:
+* if (a and b) out = 1, else out = 0 
+*/
+CHIP And {
+    IN a, b;
+    OUT out;
+    
+    PARTS:
+    Nand(a=a , b= b, out=Nandout);
+    Nand(a=Nandout , b= Nandout, out=out);
+}
