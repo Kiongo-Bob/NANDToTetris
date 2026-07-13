@@ -1,0 +1,45 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+
+/** 2*1 MUX Truth table:
+* -------------------
+* | I0 | I1 | S | Y |
+* | 0  | 0  | 0 | 0 | 
+* | 0  | 1  | 0 | 0 |   
+* | 1  | 0  | 0 | 1 |
+* | 1  | 1  | 0 | 1 | 
+* | 0  | 0  | 1 | 0 | 
+* | 0  | 1  | 1 | 1 | 
+* | 1  | 0  | 1 | 0 | 
+* | 1  | 1  | 1 | 1 | 
+* -------------------
+
+
+* Rationale: Get the boolean expressions where the output is True/High/1
+* Rows 2,3, 6 & 7
+* Row 2:(I0*!I1*!S), Row 3:(I0*I1*!S), Row 6:(!I0*I1*S), Row 7:(I0*I1*S)
+* Combining the expressions:
+* (I0*!I1*!S) + (I0*I1*!S) + (!I0*I1*S) + (I0*I1*S)
+* Like terms together/ simplify the expression:
+* (I0*!S*!I1) + (I0*!S*I1) + (!I0*S*I1) + (IO*S*I1)
+* (I0*!S)(!I1 + I1) + (I1*S)(!I0 + I0)
+* Complementary rule !x + x = 1
+* (I0*!S)(1) + (I1*S)(1)
+* I0 AND NOT S OR I1 AND S; renders I1 = 0 when I0 is selected
+* effectively making Sel (S) bit to act like a switch.
+
+/** 
+ * Multiplexor:
+ * if (sel = 0) out = a, else out = b
+ */
+CHIP Mux {
+    IN a, b, sel;
+    OUT out;
+
+    PARTS:
+    Not(in=sel, out=NOTsel);
+    And(a=a, b=NOTsel, out=aNOTsel);
+    And(a=b, b=sel, out=bsel);
+    Or(a=aNOTsel, b=bsel, out=out);
+}
