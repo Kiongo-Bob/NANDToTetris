@@ -1,0 +1,36 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+
+/** 1*2 DMUX Truth table:
+* -------------------
+* | S | Iin | I0 | I1 |
+* | 0 |  0  |  0 |  0 | 
+* | 0 |  1  |  1 |  0 |   
+* | 1 |  0  |  0 |  0 |
+* | 1 |  1  |  0 |  1 | 
+* -------------------
+
+
+* Rationale: Get the boolean expressions where the outputs are True/High/1
+* Rows 1 & 3
+* Row 1:(!S*Iin), Row 3:(S*Iin)
+* Here we don't combine the expressions since we need two output signals.
+* Output 1; Sel NOT AND Iin.
+* Output 2: Sel AND Iin
+
+
+/**
+ * Demultiplexor:
+ * [a, b] = [in, 0] if sel = 0
+ *          [0, in] if sel = 1
+ */
+CHIP DMux {
+    IN in, sel;
+    OUT a, b;
+
+    PARTS:
+    Not(in=sel, out=notsel);
+    And(a=sel, b=in, out=b);
+    And(a=notsel, b=in, out=a);
+}
