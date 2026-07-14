@@ -86,6 +86,10 @@ Compare output `.out` files against the provided `.cmp` files — a clean diff m
 - Projects 6 and 11 (assembler, compiler) should be implemented in real code, not just by hand — good excuse to practice a language deeply.
 - Stick through the suck, AI makes things easy since information is very readily.
 
+## Alternatively, one may prefer the Online IDE
+
+- No downloads or uploads are required. I'd highly recommend this for you to hit the ground running ASAP. You can access the online IDE from [here](https://nand2tetris.github.io/web-ide/chip/).
+
 ## Resources
 
 - Course site & book: https://www.nand2tetris.org/
