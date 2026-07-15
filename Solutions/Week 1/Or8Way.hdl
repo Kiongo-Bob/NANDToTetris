@@ -1,0 +1,34 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+
+/* For an OR gate, f(x,y) = 0 if and only if x=0 & y = 0 else f(x,y) = 1
+*  We can then build the Or8way as a cascade of Or gates to preserve this logic
+*  We can think of it as a tree 
+*                        Or
+*                        /\
+*                       /  \
+*            Or(0,1,2,3)    Or(4,5,6,7)
+*                /\               /\
+*               /  \             /  \
+*        Or(0,1)   Or(2,3)  Or(4,5)  Or(6,7)
+                
+*/
+
+/**
+ * 8-way Or gate: 
+ * out = in[0] Or in[1] Or ... Or in[7]
+ */
+CHIP Or8Way {
+    IN in[8];
+    OUT out;
+
+    PARTS:
+    Or(a=in[0], b=in[1], out=Or01);
+    Or(a=in[2], b=in[3], out=Or23);
+    Or(a=in[4], b=in[5], out=Or45);
+    Or(a=in[6], b=in[7], out=Or67);
+    Or(a=Or01, b=Or23, out=Or0123);
+    Or(a=Or45, b=Or67, out=Or4567);
+    Or(a=Or0123, b=Or4567, out=out);
+}
