@@ -1,0 +1,32 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+
+/*                    in
+*                     /\
+*                    /  \
+*        Sel[1]->DMux1   Sel[0]->DMux2
+*               /\           /\
+*              /  \         /  \
+*             d    c       b    a
+* In Sel[0] it evaluates the two states in the LSB based on the bit's value; either 0,1
+* In Sel[1] it evaluates the two stated in the MSB based on the bit's value; either 0,1
+*/ 
+
+/**
+ * 4-way demultiplexor:
+ * [a, b, c, d] = [in, 0, 0, 0] if sel = 00
+ *                [0, in, 0, 0] if sel = 01
+ *                [0, 0, in, 0] if sel = 10
+ *                [0, 0, 0, in] if sel = 11
+ */
+CHIP DMux4Way {
+    IN in, sel[2];
+    OUT a, b, c, d;
+
+    PARTS:
+    DMux(in=in, sel=sel[1], a=m1, b=m2);
+    DMux(in=m1, sel=sel[0], a=a, b=b);
+    DMux(in=m2, sel=sel[0], a=c, b=d);
+    
+}

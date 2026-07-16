@@ -2,7 +2,7 @@
 // and the book "The Elements of Computing Systems"
 // by Nisan and Schocken, MIT Press.
 
-/* 3 Mux16 multiplexor are used.
+/* 3 Mux16 multiplexors are used.
 *  2 for the first block to handle two 16 bit inputs each.
 *  Outputs of the two 2*1 multiplexors is used in a third 2*1 Mux16
 *  Caution: Don't pass the input as a[16] as this is interpreted as the MSB 
