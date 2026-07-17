@@ -2,14 +2,6 @@
 // and the book "The Elements of Computing Systems"
 // by Nisan and Schocken, MIT Press.
 
-/*                          in
-*                           /\
-*                          /  \
-*        Sel[1..2]->DMux4Way   Sel[0..1]->DMux4Way
-*               /\                    /\
-*              /  \                  /  \
-*             d    c                b    a
-
 /**
  * 8-way demultiplexor:
  * [a, b, c, d, e, f, g, h] = [in, 0,  0,  0,  0,  0,  0,  0] if sel = 000
@@ -26,5 +18,10 @@ CHIP DMux8Way {
     OUT a, b, c, d, e, f, g, h;
 
     PARTS:
-    //// Replace this comment with your code.
+    // Split into pair fo four where MSB either 1 or 0 - Catch MSB
+    DMux(in=in, sel=sel[2], a=abcd, b=efgh); 
+
+    // Split the two pairs of four from above into individual value of bits
+    DMux4Way(in=abcd, sel=sel[0..1], a=a, b=b, c=c, d=d);
+    DMux4Way(in=efgh, sel=sel[0..1], a=e, b=f, c=g, d=h);
 }

@@ -1,0 +1,41 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+
+/*                          in
+*                           /\
+*                          /  \
+*           Sel[1..2]->DMux   Sel[0..1]->DMux
+*               /\                    /\
+*              /  \                  /  \
+*             d    c                b    a
+
+/**
+ * 8-way demultiplexor:
+ * [a, b, c, d, e, f, g, h] = [in, 0,  0,  0,  0,  0,  0,  0] if sel = 000
+ *                            [0, in,  0,  0,  0,  0,  0,  0] if sel = 001
+ *                            [0,  0, in,  0,  0,  0,  0,  0] if sel = 010
+ *                            [0,  0,  0, in,  0,  0,  0,  0] if sel = 011
+ *                            [0,  0,  0,  0, in,  0,  0,  0] if sel = 100
+ *                            [0,  0,  0,  0,  0, in,  0,  0] if sel = 101
+ *                            [0,  0,  0,  0,  0,  0, in,  0] if sel = 110
+ *                            [0,  0,  0,  0,  0,  0,  0, in] if sel = 111
+ */
+CHIP DMux8Way {
+    IN in, sel[3];
+    OUT a, b, c, d, e, f, g, h;
+
+    PARTS:
+    // Split into pair fo four where MSB either 1 or 0 - Catch MSB
+    DMux(in=in, sel=sel[2], a=abcd, b=efgh); 
+
+    // Split into pair of two where middle bit is either 1 or 0 - Catch middle bit
+    DMux(in=abcd, sel=sel[1], a=ab, b=cd);
+    DMux(in=efgh, sel=sel[1], a=ef, b=gh);
+    
+    // Split into each corresponding bit of the LSB - Catch LSB
+    DMux(in=ab, sel=sel[0], a=a, b=b);
+    DMux(in=cd, sel=sel[0], a=c, b=d);
+    DMux(in=ef, sel=sel[0], a=e, b=f); 
+    DMux(in=gh, sel=sel[0], a=g, b=h); 
+}
