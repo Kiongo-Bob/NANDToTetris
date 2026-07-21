@@ -1,6 +1,12 @@
 // This file is part of www.nand2tetris.org
 // and the book "The Elements of Computing Systems"
 // by Nisan and Schocken, MIT Press.
+
+/* Combine two half adders
+ * Half adder 1 computes a+b; out=>partialSum1, carry1
+ * Half adder 2 computes partialSum1+carry1; out=>sum, carry2
+ * Or carry1 + carry2; out=> carry
+ */
 /**
  * Computes the sum of three bits.
  */
@@ -10,5 +16,7 @@ CHIP FullAdder {
         carry;   // Left bit of a + b + c
 
     PARTS:
-    //// Replace this comment with your code.
+    HalfAdder(a=a, b=b, sum=sum1, carry=carry1);
+    HalfAdder(a=sum1, b=c, sum= sum, carry=carry2);
+    Or(a=carry1, b=carry2, out=carry);
 }
