@@ -1,7 +1,13 @@
 // This file is part of www.nand2tetris.org
 // and the book "The Elements of Computing Systems"
 // by Nisan and Schocken, MIT Press.
+// File name: projects/2/ALU.hdl
 /**
+
+/**
+ * Break down the task into steps and implement the solution step-wise
+ * Mux will act as the conditional IF block in programming
+ * You can map a specific bit to an output, e.g. out[15] = MSB, out[0]=LSB
  * ALU (Arithmetic Logic Unit):
  * Computes out = one of the following functions:
  *                0, 1, -1,
@@ -40,5 +46,19 @@ CHIP ALU {
         ng;      // if (out < 0)  equals 1, else 0
 
     PARTS:
-    //// Replace this comment with your code.
+    Mux16(a=x, b=false, sel=zx, out=x1);
+    Not16(in=x1, out=Notx1);
+    Mux16(a=x1, b=Notx1, sel=nx, out=xfinal);
+    Mux16(a=y, b=false, sel=zy, out=y1);
+    Not16(in=y1, out=Noty1);
+    Mux16(a=y1, b=Noty1, sel=ny, out=yfinal);
+    And16(a=xfinal, b=yfinal, out=xandy);
+    Add16(a=xfinal, b=yfinal, out=xaddy);
+    Mux16(a=xandy, b=xaddy, sel=f, out=fout);
+    Not16(in=fout, out=notfout);
+    Mux16(a=fout, b=notfout, sel=no, out=out, out[0..7]=lower, out[8..15]=upper, out[15]=ng);
+    Or8Way(in=lower, out=orlower);
+    Or8Way(in=upper, out=orupper);
+    Or(a=orlower, b=orupper, out=upperorlower);
+    Not(in=upperorlower , out=zr);
 }
